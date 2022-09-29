@@ -1,4 +1,3 @@
-
 import Foundation
 
 struct GameRecord: Codable {
@@ -24,7 +23,7 @@ final class StatisticServiceImplementation: StatisticService {
     private (set) var bestGame: GameRecord {
         get {
             guard let data = userDefaults.data(forKey: Keys.bestGame.rawValue),
-                let record = try? JSONDecoder().decode(GameRecord.self, from: data) else {
+                  let record = try? JSONDecoder().decode(GameRecord.self, from: data) else {
                 return .init(correct: 0, total: 0, date: Date())
             }
             return record
@@ -37,7 +36,7 @@ final class StatisticServiceImplementation: StatisticService {
             userDefaults.set(data, forKey: Keys.bestGame.rawValue)
         }
     }
-
+    
     private (set) var gamesCount: Int {
         get {
             userDefaults.integer(forKey: Keys.gamesCount.rawValue)
@@ -46,11 +45,11 @@ final class StatisticServiceImplementation: StatisticService {
             userDefaults.set(newValue, forKey: Keys.gamesCount.rawValue)
         }
     }
-
+    
     private (set) var totalAccuracy: Double {
         get {
             guard let data = userDefaults.data(forKey: Keys.totalAccuracy.rawValue),
-                let accuracy = try? JSONDecoder().decode(Double.self, from: data) else {
+                  let accuracy = try? JSONDecoder().decode(Double.self, from: data) else {
                 return .init(0.0)
             }
             return accuracy
@@ -63,13 +62,13 @@ final class StatisticServiceImplementation: StatisticService {
             userDefaults.set(data, forKey: Keys.totalAccuracy.rawValue)
         }
     }
-
+    
     func store(correct: Int, total: Int) {
         if self.bestGame.isNewRecord(current: correct) {
             self.bestGame = GameRecord(correct: correct, total: total, date: Date())
         }
         gamesCount += 1
         totalAccuracy = (totalAccuracy * Double(gamesCount - 1) +
-        (Double(correct) / Double(total)) * 100) / Double(gamesCount)
+                         (Double(correct) / Double(total)) * 100) / Double(gamesCount)
     }
 }

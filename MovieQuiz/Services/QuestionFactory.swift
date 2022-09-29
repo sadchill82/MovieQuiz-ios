@@ -7,9 +7,9 @@ class QuestionFactory: QuestionFactoryProtocol {
         self.delegate = delegate
         self.moviesLoader = moviesLoader
     }
-
+    
     private var movies: [MostPopularMovie] = []
-
+    
     func requestNextQuestion() {
         DispatchQueue.main.async { [weak self] in
             self?.delegate.didRequestNextQuestion()
@@ -17,9 +17,9 @@ class QuestionFactory: QuestionFactoryProtocol {
         DispatchQueue.global().async { [weak self] in
             guard let self = self else { return }
             let index = (0..<self.movies.count).randomElement() ?? 0
-
+            
             guard let movie = self.movies[safe: index] else { return }
-
+            
             var imageData = Data()
             do {
                 imageData = try Data(contentsOf: movie.imageURL)
@@ -29,17 +29,17 @@ class QuestionFactory: QuestionFactoryProtocol {
                 }
                 return
             }
-
+            
             let rating = Float(movie.rating) ?? 0
             let random = Int.random(in: 5..<8)
             let text = "Рейтинг этого фильма больше чем \(random)?"
             let correctAnswer = rating > Float(random)
-
+            
             let question = QuizQuestion(
                 image: imageData,
                 text: text,
                 correctAnswer: correctAnswer)
-
+            
             DispatchQueue.main.async { [weak self] in
                 self?.delegate.didReceiveNextQuestion(question: question)
             }
