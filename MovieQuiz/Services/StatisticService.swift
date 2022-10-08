@@ -36,7 +36,7 @@ final class StatisticServiceImplementation: StatisticService {
             userDefaults.set(data, forKey: Keys.bestGame.rawValue)
         }
     }
-    
+
     private (set) var gamesCount: Int {
         get {
             userDefaults.integer(forKey: Keys.gamesCount.rawValue)
@@ -45,7 +45,7 @@ final class StatisticServiceImplementation: StatisticService {
             userDefaults.set(newValue, forKey: Keys.gamesCount.rawValue)
         }
     }
-    
+
     private (set) var totalAccuracy: Double {
         get {
             guard let data = userDefaults.data(forKey: Keys.totalAccuracy.rawValue),
@@ -62,7 +62,7 @@ final class StatisticServiceImplementation: StatisticService {
             userDefaults.set(data, forKey: Keys.totalAccuracy.rawValue)
         }
     }
-    
+
     func store(correct: Int, total: Int) {
         if self.bestGame.isNewRecord(current: correct) {
             self.bestGame = GameRecord(correct: correct, total: total, date: Date())

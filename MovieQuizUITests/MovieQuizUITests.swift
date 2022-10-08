@@ -2,19 +2,19 @@ import XCTest
 
 class MovieQuizUITests: XCTestCase {
     var app: XCUIApplication!
-    
-    
+
+
     override func setUpWithError() throws {
         app = XCUIApplication()
         app.launch()
         continueAfterFailure = false
     }
-    
+
     override func tearDownWithError() throws {
         app.terminate()
         app = nil
     }
-    
+
     func testYesButton() {
         let firstPoster = app.images["Poster"]
         app.buttons["Да"].tap()
@@ -24,22 +24,23 @@ class MovieQuizUITests: XCTestCase {
         XCTAssertTrue(indexLabel.label == "2/10")
         XCTAssertFalse(firstPoster == secondPoster)
     }
-    
+
     func testNoButton() {
         let firstPoster = app.images["Poster"]
+        let screenshotBefore = firstPoster.screenshot()
         app.buttons["Нет"].tap()
         let secondPoster = app.images["Poster"]
+        let screenshotAfter = secondPoster.screenshot()
         let indexLabel = app.staticTexts["Вопрос:"]
         sleep(3)
         XCTAssertTrue(indexLabel.label == "2/10")
-        XCTAssertFalse(firstPoster == secondPoster)
+        XCTAssertFalse(screenshotBefore.pngRepresentation == screenshotAfter.pngRepresentation)
     }
-    
+
     func testAlertExist() {
-        sleep(4)
         for _ in 0..<10 {
             app.buttons["Да"].tap()
-            sleep(2)
+            sleep(1)
         }
         let indexLabel = app.staticTexts["Вопрос:"]
         XCTAssertTrue(indexLabel.label == "10/10")
@@ -48,9 +49,8 @@ class MovieQuizUITests: XCTestCase {
         XCTAssertTrue(resultAlert.label == "Этот раунд окончен")
         XCTAssertTrue(resultAlert.buttons.firstMatch.label == "Сыграть еще раз")
     }
-    
+
     func testAlertDisappear() {
-        sleep(5)
         var i = 0
         while i < 10 {
             app.buttons["Да"].tap()
