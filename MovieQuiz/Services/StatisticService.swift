@@ -1,4 +1,3 @@
-
 import Foundation
 
 struct GameRecord: Codable {
@@ -24,7 +23,7 @@ final class StatisticServiceImplementation: StatisticService {
     private (set) var bestGame: GameRecord {
         get {
             guard let data = userDefaults.data(forKey: Keys.bestGame.rawValue),
-                let record = try? JSONDecoder().decode(GameRecord.self, from: data) else {
+                  let record = try? JSONDecoder().decode(GameRecord.self, from: data) else {
                 return .init(correct: 0, total: 0, date: Date())
             }
             return record
@@ -50,7 +49,7 @@ final class StatisticServiceImplementation: StatisticService {
     private (set) var totalAccuracy: Double {
         get {
             guard let data = userDefaults.data(forKey: Keys.totalAccuracy.rawValue),
-                let accuracy = try? JSONDecoder().decode(Double.self, from: data) else {
+                  let accuracy = try? JSONDecoder().decode(Double.self, from: data) else {
                 return .init(0.0)
             }
             return accuracy
@@ -70,6 +69,6 @@ final class StatisticServiceImplementation: StatisticService {
         }
         gamesCount += 1
         totalAccuracy = (totalAccuracy * Double(gamesCount - 1) +
-        (Double(correct) / Double(total)) * 100) / Double(gamesCount)
+                         (Double(correct) / Double(total)) * 100) / Double(gamesCount)
     }
 }

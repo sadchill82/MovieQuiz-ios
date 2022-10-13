@@ -5,12 +5,14 @@ class ResultAlertPresenter: ResultAlertPresenterProtocol {
     var text: String
     var buttonText: String
     var controller: UIViewController
+    var accessibilityIdentifier: String
 
     init(title: String, text: String, buttonText: String, controller: UIViewController) {
         self.title = title
         self.text = text
         self.buttonText = buttonText
         self.controller = controller
+        self.accessibilityIdentifier = "result_alert"
     }
 
     required init?(coder: NSCoder) {
@@ -19,15 +21,16 @@ class ResultAlertPresenter: ResultAlertPresenterProtocol {
 
     func showAlert(callback: @escaping () -> Void) {
         let alert = UIAlertController(
-                title: self.title,
-                message: self.text,
-                preferredStyle: .alert
+            title: self.title,
+            message: self.text,
+            preferredStyle: .alert
         )
+        alert.view.accessibilityIdentifier = "result_alert"
         let action = UIAlertAction(
-                title: self.buttonText,
-                style: .default, handler: {_ in
-            callback()
-        })
+            title: self.buttonText,
+            style: .default, handler: {_ in
+                callback()
+            })
         alert.addAction(action)
 
         controller.present(alert, animated: true, completion: nil)

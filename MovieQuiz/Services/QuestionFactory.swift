@@ -45,7 +45,7 @@ class QuestionFactory: QuestionFactoryProtocol {
             }
         }
     }
-    
+
     func loadData() {
         moviesLoader.loadMovies { result in
             switch result {

@@ -4,7 +4,7 @@ enum ApiError: LocalizedError {
     case customError(message: String)
     case codeError(code: Int)
     case emptyResult
-    
+
     var errorDescription: String? {
         switch self {
         case .customError(let message):
